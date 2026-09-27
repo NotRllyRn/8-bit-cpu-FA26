@@ -3,29 +3,38 @@ module test_reg;
 logic clk;
 logic [7:0] data_in;
 logic [7:0] stored;
+logic reset;
 
 clock clock_instance (
     .clk(clk)
 );
 
-register register_instance (
+sync_register register_instance (
     .data_in(data_in),
     .clk(clk),
-    .stored_data(stored)
+    .stored_data(stored),
+    .reset(reset)
 );
 
 initial begin
-    data_in = 1;
 
-    #5;
+    reset = 1;
 
-    $display("output: %d", stored);
+    @(posedge clk);
+
+    $strobe("output: %d %b", stored, reset);
 
     data_in = 2;
 
-    #1;
+    @(posedge clk);
 
-    $display("output: %d", stored);
+    $strobe("output: %d %b", stored, reset);
+
+    @(posedge clk);
+
+    reset = 0;
+
+    $strobe("output: %d %b", stored, reset);
 
     $finish;
 end
