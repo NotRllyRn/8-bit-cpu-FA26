@@ -4,6 +4,7 @@ logic clk;
 logic [7:0] data_in;
 logic [7:0] stored;
 logic reset;
+logic enable = 1;
 
 clock clock_instance (
     .clk(clk)
@@ -13,7 +14,8 @@ sync_register register_instance (
     .data_in(data_in),
     .clk(clk),
     .stored_data(stored),
-    .reset(reset)
+    .reset(reset),
+    .enable(enable)
 );
 
 initial begin
