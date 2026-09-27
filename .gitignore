@@ -1,0 +1,41 @@
+# Simulation output
+*.vcd
+*.fst
+*.lxt
+*.lxt2
+*.wlf
+*.log
+
+# Compiled artifacts
+*.vvp
+*.o
+*.a
+*.so
+*.dll
+*.exe
+
+# Tool output
+obj_dir/
+sim_build/
+work/
+work-obj*/
+transcript
+vsim.wlf
+
+# FPGA and synthesis output
+build/
+out/
+dist/
+*.bit
+*.bin
+*.sof
+*.pof
+*.jou
+*.str
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
