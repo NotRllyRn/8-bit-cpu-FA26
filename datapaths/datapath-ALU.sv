@@ -14,7 +14,7 @@ module datapath_ALU(
     input logic reset,
 
     output logic [7:0] output_a,
-    output logic [7:0] output_b,
+    output logic [7:0] output_b
 );
 
 logic [7:0] data_in;
@@ -32,14 +32,14 @@ register_file register_file_inst(
     .read_address_b(read_address_b),
     .reset(reset),
     .write(write),
-    .write_address(write_address),
+    .write_address(write_address)
 );
 
 ALU ALU_inst(
     .a(data_out_a),
     .b(data_out_b),
     .op(operation),
-    .result(alu_result),
+    .result(alu_result)
 );
 
 always_comb begin
