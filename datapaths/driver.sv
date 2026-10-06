@@ -39,6 +39,7 @@ datapath_ALU datapath_ALU_inst(
     .flags_out(flags_out)
 );
 
+// some weird bug happening with clock where the change is only observed after 2 clock cycles.
 task automatic posedge_clk(int n = 1);
   repeat (n) @(posedge clk); #1ps;
 endtask
