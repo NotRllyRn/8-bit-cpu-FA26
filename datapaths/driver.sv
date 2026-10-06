@@ -13,6 +13,9 @@ logic [1:0] write_address;
 logic [7:0] external_data;
 logic use_external_data;
 
+logic write_flags;
+logic [7:0] flags_out;
+
 logic [7:0] output_a;
 logic [7:0] output_b;
 
@@ -31,51 +34,91 @@ datapath_ALU datapath_ALU_inst(
     .write(write),
     .write_address(write_address),
     .output_a(output_a),
-    .output_b(output_b)
+    .output_b(output_b),
+    .write_flags(write_flags),
+    .flags_out(flags_out)
 );
 
+task automatic posedge_clk(int n = 1);
+  repeat (n) @(posedge clk); #1ps;
+endtask
+
 initial begin
+    write_flags = 1;
     reset = 1;
     use_external_data = 1;
 
-    @(negedge clk);
+    posedge_clk;
 
     reset = 0;
     write = 1;
     write_address = 2'b01;
     external_data = 3;
 
-    @(negedge clk);
+    posedge_clk;
 
     write_address = 2'b10;
     external_data = 2;
 
-    @(negedge clk);
+    posedge_clk;
 
     use_external_data = 0;
 
     read_address_a = 2'b01;
     read_address_b = 2'b10;
 
-    $strobe("addr_a: %d addr_b: %d", output_a, output_b);
-
     write_address = 2'b10;
 
-    operation = 3'b000;
+    operation = 3'b000; // add
 
-    @(negedge clk);
+    posedge_clk;
 
-    $strobe("result: %d", output_b);
+    $display("addr_a: %d addr_b: %d", output_a, output_b);
 
-    @(negedge clk);
+    posedge_clk;
 
-    $strobe("result: %d", output_b);
+    $display("result: %d", output_b);
 
-    @(negedge clk);
+    posedge_clk;
 
-    $strobe("result: %d", output_b);
+    $display("result: %d", output_b);
 
-    @(negedge clk);
+    posedge_clk;
+
+    $display("result: %d", output_b);
+
+    use_external_data = 1;
+    write_address = 2'b01;
+    external_data = 14;
+
+    posedge_clk;
+
+    $display("addr_a: %d addr_b: %d", output_a, output_b);
+
+    write_address = 2'b10;
+    use_external_data = 0;
+
+    operation = 3'b001; // sub
+
+    posedge_clk;
+
+    $display("result: %d", output_b);
+
+    $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
+
+    write_flags = 0;
+
+    posedge_clk;
+
+    $display("result: %d", output_b);
+
+    $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
+
+    posedge_clk;
+
+    $display("result: %d", output_b);
+
+    $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
 
     $finish;
 end
