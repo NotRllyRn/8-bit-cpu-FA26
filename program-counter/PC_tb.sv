@@ -1,4 +1,4 @@
-module PC_DRIVER;
+module PC_tb;
 
 logic [7:0] count;
 logic clk;

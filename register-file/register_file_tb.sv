@@ -1,4 +1,4 @@
-module register_file_driver;
+module register_file_tb;
 
 logic clk;
 logic reset;

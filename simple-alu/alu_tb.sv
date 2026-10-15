@@ -1,4 +1,4 @@
-module alu_test_driver;
+module alu_tb;
 
 logic [7:0] a;
 logic [7:0] b;

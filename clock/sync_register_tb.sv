@@ -1,4 +1,4 @@
-module test_reg;
+module sync_register_tb;
 
 logic clk;
 logic [7:0] data_in;

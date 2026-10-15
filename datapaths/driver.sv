@@ -45,6 +45,9 @@ task automatic posedge_clk(int n = 1);
 endtask
 
 initial begin
+    $dumpfile("sim.vcd");
+    $dumpvars(0, datapath_ALU_driver);
+
     write_flags = 1;
     reset = 1;
     use_external_data = 1;
