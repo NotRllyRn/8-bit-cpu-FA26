@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module datapath_ALU_driver;
 
 logic clk;
@@ -77,19 +79,19 @@ initial begin
 
     posedge_clk;
 
-    $display("addr_a: %d addr_b: %d", output_a, output_b);
+    $display("1 addr_a: %d addr_b: %d", output_a, output_b);
 
     posedge_clk;
 
-    $display("result: %d", output_b);
+    $display("2 addr_b: %d", output_b);
 
     posedge_clk;
 
-    $display("result: %d", output_b);
+    $display("3 addr_b: %d", output_b);
 
     posedge_clk;
 
-    $display("result: %d", output_b);
+    $display("4 addr_b: %d", output_b);
 
     use_external_data = 1;
     write_address = 2'b01;
@@ -97,7 +99,7 @@ initial begin
 
     posedge_clk;
 
-    $display("addr_a: %d addr_b: %d", output_a, output_b);
+    $display("5 addr_a: %d addr_b: %d", output_a, output_b);
 
     write_address = 2'b10;
     use_external_data = 0;
@@ -106,7 +108,15 @@ initial begin
 
     posedge_clk;
 
-    $display("result: %d", output_b);
+    $display("a addr_b: %d", output_b);
+
+    $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
+
+    //write_flags = 0;
+
+    posedge_clk;
+
+    $display("b addr_b: %d", output_b);
 
     $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
 
@@ -114,13 +124,7 @@ initial begin
 
     posedge_clk;
 
-    $display("result: %d", output_b);
-
-    $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
-
-    posedge_clk;
-
-    $display("result: %d", output_b);
+    $display("c addr_b: %d", output_b);
 
     $display("zero: %b carry: %b", flags_out[0], flags_out[1]);
 

@@ -9,8 +9,20 @@ Initial project setup.
 ## Commands
 
 
-For general test bench simulation:
+Install Icarus Verilog (includes `iverilog` and `vvp`). On macOS:
 
+```sh
+brew install icarus-verilog
 ```
-iverilog -g2012 -o sim.a -s modulename_tb **/*.sv && vvp sim.a
+
+Run a testbench by its top-level module name:
+
+```sh
+./simulate datapath_ALU_driver
+./simulate alu_tb
 ```
+
+The script discovers `.sv` files recursively, compiles with SystemVerilog 2012
+support, and runs the selected module. It stops if compilation fails and removes
+the temporary compiled binary afterward. Relative waveform paths (such as
+`sim.vcd`) are written in the project root, even when invoked from another directory.

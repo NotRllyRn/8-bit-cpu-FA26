@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 <top-module>" >&2
+    exit 2
+fi
+
+for tool in iverilog vvp; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        echo "Error: $tool is required. On macOS: brew install icarus-verilog" >&2
+        exit 1
+    fi
+done
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
+sources=()
+while IFS= read -r -d '' source; do
+    sources+=("$source")
+done < <(find . -type d \( -name .git -o -name build -o -name sim_build \) -prune -o -type f -name '*.sv' -print0)
+
+if [[ ${#sources[@]} -eq 0 ]]; then
+    echo "Error: no SystemVerilog sources found." >&2
+    exit 1
+fi
+
+binary=$(mktemp "${TMPDIR:-/tmp}/cpu-sim.XXXXXX")
+trap 'rm -f -- "$binary"' EXIT
+
+iverilog -g2012 -o "$binary" -s "$1" "${sources[@]}"
+vvp "$binary"
